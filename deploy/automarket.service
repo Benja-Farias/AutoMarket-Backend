@@ -1,0 +1,14 @@
+[Unit]
+Description=AutoMarket Spring Boot API
+After=network.target mongod.service
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/opt/automarket
+EnvironmentFile=/etc/automarket.env
+ExecStart=/usr/bin/java -Xms128m -Xmx384m -jar /opt/automarket/automarket-api.jar
+Restart=always
+RestartSec=8
+NoNewPrivileges=true
+[Install]
+WantedBy=multi-user.target
