@@ -1,4 +1,5 @@
 package cl.automarket.security;
+
 import cl.automarket.model.UserAccount;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -10,14 +11,20 @@ import java.time.Instant;
 import java.util.Date;
 @Service
 public class JwtService {
- private final SecretKey key;
- private final long minutes;
- public JwtService(@Value("${app.jwt.secret}") String secret,@Value("${app.jwt.minutes}") long minutes) {
-  if(secret.length()<32) throw new IllegalArgumentException("JWT_SECRET necesita al menos 32 caracteres");
-  this.key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)); this.minutes=minutes;
- }
- public String create(UserAccount u){Instant now=Instant.now();return Jwts.builder().subject(u.email)
-   .claim("rol",u.rol).issuedAt(Date.from(now)).expiration(Date.from(now.plusSeconds(minutes*60)))
-   .signWith(key).compact(); }
- public String email(String token){return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();}
+    private final SecretKey key;
+    private final long minutes;
+    public JwtService(@Value("${app.jwt.secret}") String secret, @Value("${app.jwt.minutes}") long minutes) {
+        if(secret.length()<32) throw new IllegalArgumentException("JWT_SECRET necesita al menos 32 caracteres");
+        this.key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.minutes=minutes;
+    }
+
+    public String create(UserAccount u) {
+        Instant now=Instant.now();
+        return Jwts.builder().subject(u.email) .claim("rol", u.rol).issuedAt(Date.from(now)).expiration(Date.from(now.plusSeconds(minutes*60))) .signWith(key).compact();
+    }
+
+    public String email(String token) {
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+    }
 }
