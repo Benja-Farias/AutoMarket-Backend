@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController @RequestMapping("/api") public class ContactController {
     private final ContactRepository repo;
@@ -22,7 +23,12 @@ import java.util.*;
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", c.id, "mensaje", "Consulta recibida"));
     }
 
-    @GetMapping("/admin/contactos") public List<Dtos.ContactView> all() {
-        return repo.findAll().stream().map(Dtos.ContactView::from).toList();
+    @GetMapping("/admin/contactos")
+    @SecurityRequirement(name = "bearerAuth")
+    public List<Dtos.ContactView> all() {
+        return repo.findAll()
+                .stream()
+                .map(Dtos.ContactView::from)
+                .toList();
     }
 }
