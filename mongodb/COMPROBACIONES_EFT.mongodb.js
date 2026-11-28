@@ -1,0 +1,11 @@
+const data = db.getSiblingDB('automarket_fullstack');
+print('Usuarios por rol:');
+printjson(data.usuarios.aggregate([{ $group: { _id: '$rol', cantidad: { $sum: 1 } } }]).toArray());
+print('Vehículos: ' + data.vehiculos.countDocuments());
+print('Clientes comerciales: ' + data.clientes.countDocuments());
+print('Índices de vehículos:');
+printjson(data.vehiculos.getIndexes());
+print('Índices de clientes:');
+printjson(data.clientes.getIndexes());
+const contactos = db.getSiblingDB('automarket_contactos');
+print('Consultas del microservicio: ' + contactos.consultas.countDocuments());

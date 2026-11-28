@@ -11,11 +11,11 @@ import java.time.Instant;
 public final class Dtos {
     private Dtos() {}
 
-    public record Login(@NotBlank @Email String correo, @NotBlank String password) {}
+    public record Login(@NotBlank @Email @Size(max = 100) String correo, @NotBlank String password) {}
 
     public record Register(
-            @NotBlank String nombre,
-            @NotBlank @Email String correo,
+            @NotBlank @Size(max = 100) String nombre,
+            @NotBlank @Email @Size(max = 100) String correo,
             @NotBlank @Size(min = 8) String password
     ) {}
 
