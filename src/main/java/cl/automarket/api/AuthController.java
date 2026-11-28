@@ -16,7 +16,7 @@ import java.security.*;
 import java.time.Instant;
 import java.util.*;
 
-@RestController @RequestMapping("/api/auth") public class AuthController {
+@RestController @RequestMapping({"/api/auth", "/api/v1/auth"}) public class AuthController {
     private final UserRepository users;
     private final RefreshRepository sessions;
     private final PasswordEncoder encoder;

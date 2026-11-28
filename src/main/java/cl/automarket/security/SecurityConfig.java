@@ -39,14 +39,16 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/register",
                                 "/api/auth/refresh",
-                                "/api/auth/logout"
+                                "/api/auth/logout",
+                                "/api/v1/auth/login", "/api/v1/auth/register",
+                                "/api/v1/auth/refresh", "/api/v1/auth/logout"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/vehiculos/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
-                        .requestMatchers("/api/clientes/**", "/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/vehiculos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/vehiculos/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/vehiculos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/vehiculos/**", "/api/v1/vehiculos/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/contacto", "/api/v1/contacto").permitAll()
+                        .requestMatchers("/api/clientes/**", "/api/v1/clientes/**", "/api/admin/**", "/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/vehiculos/**", "/api/v1/vehiculos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/vehiculos/**", "/api/v1/vehiculos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/vehiculos/**", "/api/v1/vehiculos/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(errors -> errors
